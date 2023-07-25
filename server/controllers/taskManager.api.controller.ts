@@ -37,24 +37,24 @@ export const createTask = async (req: Request, res: Response) => {
     });
   }
 };
-export const updateTask = async (req: Request, res: Response) => {
+export const completedTask = async (req: Request, res: Response) => {
   const { id } = req.params;
-  const { taskName, description, isCompleted }: TaskData = req.body;
   try {
     const task = await TaskModel.findByIdAndUpdate(
       id,
-      { taskName, description, isCompleted },
-      { new: true }
+      { isCompleted : true },
+      {new : true}
     );
     return res.status(201).json({
       ok: true,
-      msg: "updated",
-      task,
+      msg: "completed",
+      task
     });
   } catch (error) {
     return res.status(500).json({
       ok: false,
       msg: "Sorry something was wrong, please contact with Admin",
+      error
     });
   }
 };

@@ -1,5 +1,6 @@
 import express, { Application } from "express";
 import cors from "cors";
+import morgan from "morgan"
 import { databaseConnection } from "../database/config";
 import router from "../routes/taskManager.api.route"; 
 const BlockClassJS = function (constructor: Function) {
@@ -35,6 +36,7 @@ export class Server {
   middlewares() {
     this._app.use(cors());
     this._app.use(express.json());
+    this._app.use(morgan('dev'))
   }
   async connectDB() {
     await databaseConnection()

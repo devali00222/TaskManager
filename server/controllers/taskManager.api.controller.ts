@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { TaskModel } from "../models/task";
 import { TaskData } from "../interfaces";
+import { ObjectId } from "mongoose";
 
 // get all tasks controller
 export const getAllTasks = async (req: Request, res: Response) => {
@@ -37,6 +38,28 @@ export const createTask = async (req: Request, res: Response) => {
     });
   }
 };
+export const updateTask =async (req:Request, res: Response) => {
+  const { id } = req.params;
+  const {taskName, description, dueDate} = req.body
+  try {
+    const task = await TaskModel.findByIdAndUpdate(
+      id,
+      { taskName, description, dueDate },
+      {new : true}
+    );
+    return res.status(201).json({
+      ok: true,
+      msg: "completed",
+      task
+    });
+  } catch (error) {
+    return res.status(500).json({
+      ok: false,
+      msg: "Sorry something was wrong, please contact with Admin",
+      error
+    });
+  }
+}
 export const completedTask = async (req: Request, res: Response) => {
   const { id } = req.params;
   try {

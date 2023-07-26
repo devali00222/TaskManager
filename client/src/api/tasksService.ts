@@ -13,14 +13,32 @@ export async function getAllTasks(): Promise<Task[]> {
 }
 export async function createTask(newTask: Task): Promise<Task> {
   try {
-    const response = await api.post<Task>('/api/tasks', newTask);
+    const response = await api.post<Task>("/api/tasks", newTask);
     return response.data;
   } catch (error) {
     // Handle error
     throw error;
   }
 }
-export async function completedTask(taskId : string): Promise<Task> {
+export async function updateTask(
+  taskId: string,
+  updateData: {
+    taskName?: string,
+    description?: string
+  }
+): Promise<Task> {
+  try {
+    const response = await api.put<Task>(
+      `/api/tasks/update/${taskId}`,
+      updateData
+    );
+    return response.data;
+  } catch (error) {
+    // Handle error
+    throw error;
+  }
+}
+export async function completedTask(taskId: string): Promise<Task> {
   try {
     const response = await api.put<Task>(`/api/tasks/${taskId}`);
     return response.data;
